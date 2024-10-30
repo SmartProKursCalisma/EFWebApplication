@@ -1,0 +1,54 @@
+﻿@model ProductTableAndSortWithSearchParam
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h2>Ürün Bilgileri</h2>
+    <div style="display:flex;flex-direction:row;justify-content:start;gap:15px;align-items:center;">
+       
+        <form method="post" asp-controller="home" asp-action="FilteredProducts" class="mb-2" style="display:flex;flex-direction:row;justify-content:start;gap:15px;align-items:center;">
+            <label for="azSort">A-Z Sıralama</label>
+            <input id="azSort" asp-for="Parameters.AzSort" type="checkbox" class="form-check"  />
+
+            <label for="azSort">Z-A Sıralama</label>
+            <input id="zASort" asp-for="Parameters.ZaSort" type="checkbox" class="form-check" />
+
+            <label for="minPrice">Minimum Fiyat</label>
+            <input id="minPrice" asp-for="Parameters.MinPrice" class="form-control" type="number" style="width:70px" min="0" max="999999" />
+
+            <label for="maxPrice">Maximum Fiyat</label>
+            <input id="maxPrice" asp-for="Parameters.MaxPrice" class="form-control" type="number" style="width:70px" min="0" max="999999" />
+
+            <input asp-for="Parameters.SearchTerm" type="text" class="form-control" placeholder="Ara..." />
+            <button type="submit" class="btn btn-sm btn-outline-success"><i class="fa-solid fa-filter"></i> Filtrele</button>
+        </form>
+    </div>
+    <table class="table table-stripped table-bordered table-success">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Ürün Kategorisi</th>
+                <th>Ürün Adı</th>
+                <th>Birim Adedi</th>
+                <th>Birim Fiyatı</th>
+                <th>Stok</th>
+                <th>Aksiyon</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model.Products)
+            {
+                <tr>
+                    <td>@product.ProductId</td>
+                    <td>@product.CategoryName</td>
+                    <td>@product.ProductName</td>
+                    <td>@product.QuantityPerUnit</td>
+                    <td>@product.UnitPrice</td>
+                    <td>@product.UnitsInStock</td>
+                    <td><a class="btn btn-sm btn-outline-info" asp-controller="home" asp-action="ProductDetails">Detay</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
